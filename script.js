@@ -8,29 +8,49 @@ function ComputerPlay() {
 
 function playRound(playerSelection, computerSelection) {
     playerSelection = playerSelection.toUpperCase();
-    let a;
+    let roundScore;
     switch (true) {
         case playerSelection == computerSelection.toUpperCase():
-            a = "Tie";
+            console.log("Tie Round");
+            roundScore = 2;
             break;
         case playerSelection === "ROCK" && computerSelection === "Scissors":
-            a =  `${playerSelection} crushes ${computerSelection}`;
+            console.log(`You win this round! ${playerSelection} crushes ${computerSelection}`);
+            roundScore = 1;
             break;
         case playerSelection === "ROCK" && computerSelection === "Paper":
-            a = `${computerSelection} captures ${playerSelection}`;
+            console.log(`You lose this round, ${computerSelection} captures ${playerSelection}`);
+            roundScore = 0;
             break;
         case playerSelection === "PAPER" && computerSelection === "Scissors":
-            a = `${computerSelection} cut ${playerSelection}`;
+            console.log(`You lose this round, ${computerSelection} cut ${playerSelection}`);
+            roundScore = 0;
             break;
         case playerSelection === "PAPER" && computerSelection === "Rock":
-            a = `${playerSelection} captures ${computerSelection}`;
+            console.log(`You win this round! ${playerSelection} captures ${computerSelection}`);
+            roundScore = 1;
             break;
         case playerSelection === "SCISSORS" && computerSelection === "Rock":
-            a = `${computerSelection} crush ${playerSelection}`;
+            console.log(`You lose this round, ${computerSelection} crushes ${playerSelection}`);
+            roundScore = 0;
             break;
         case playerSelection === "SCISSORS" && computerSelection === "Paper":
-            a = `${playerSelection} cut ${computerSelection}`;
+            console.log(`You win this round! ${playerSelection} cut ${computerSelection}`);
+            roundScore = 1;
             break;
     }
-    return a;
+    return roundScore;
+}
+
+function game() {
+    let comp = 0;
+    let player = 0;
+    for (let i = 0; i < 5; i++){
+        let playerSelection = prompt("Enter your choice:");
+        let computerSelection = ComputerPlay();
+        let roundScore = playRound(playerSelection, computerSelection);
+        (roundScore === 1) ? player++: (roundScore == 0)? comp++: "" ;
+        console.log(`Score:\nPlayer: ${player} Computer: ${comp}`);
+    }
+    (player > comp) ? console.log("You win!") : (comp > player) ? console.log("You lose."): console.log("Tie");
 }
