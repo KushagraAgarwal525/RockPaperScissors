@@ -41,9 +41,16 @@ table, th, thead {
     justify-content: space-between;
     align-items: center;
     min-height: 256px;
-    height: auto;
+    height: 100%;
     width: auto;
     gap: 20px;
+}
+
+.imgdiv {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
 }
 
 .btntxt {
