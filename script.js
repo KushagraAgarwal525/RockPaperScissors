@@ -7,35 +7,35 @@ function ComputerPlay() {
 }
 
 function playRound(playerSelection, computerSelection) {
-    playerSelection = playerSelection.toUpperCase();
     let roundScore;
+    const comment = document.querySelector(".comment");
     switch (true) {
-        case playerSelection == computerSelection.toUpperCase():
-            console.log("Tie Round");
+        case playerSelection == computerSelection:
+            comment.textContent = "Tie Round"
             roundScore = 2;
             break;
-        case playerSelection === "ROCK" && computerSelection === "Scissors":
-            console.log(`You win this round! ${playerSelection} crushes ${computerSelection}`);
+        case playerSelection === "Rock" && computerSelection === "Scissors":
+            comment.textContent = `You win this round! ${playerSelection} crushes ${computerSelection}`
             roundScore = 1;
             break;
-        case playerSelection === "ROCK" && computerSelection === "Paper":
-            console.log(`You lose this round, ${computerSelection} captures ${playerSelection}`);
+        case playerSelection === "Rock" && computerSelection === "Paper":
+            comment.textContent = `You lose this round, ${computerSelection} captures ${playerSelection}`
             roundScore = 0;
             break;
-        case playerSelection === "PAPER" && computerSelection === "Scissors":
-            console.log(`You lose this round, ${computerSelection} cut ${playerSelection}`);
+        case playerSelection === "Paper" && computerSelection === "Scissors":
+            comment.textContent = `You lose this round, ${computerSelection} cut ${playerSelection}`
             roundScore = 0;
             break;
-        case playerSelection === "PAPER" && computerSelection === "Rock":
-            console.log(`You win this round! ${playerSelection} captures ${computerSelection}`);
+        case playerSelection === "Paper" && computerSelection === "Rock":
+            comment.textContent = `You win this round! ${playerSelection} captures ${computerSelection}`
             roundScore = 1;
             break;
-        case playerSelection === "SCISSORS" && computerSelection === "Rock":
-            console.log(`You lose this round, ${computerSelection} crushes ${playerSelection}`);
+        case playerSelection === "Scissors" && computerSelection === "Rock":
+            comment.textContent = `You lose this round, ${computerSelection} crushes ${playerSelection}`
             roundScore = 0;
             break;
-        case playerSelection === "SCISSORS" && computerSelection === "Paper":
-            console.log(`You win this round! ${playerSelection} cut ${computerSelection}`);
+        case playerSelection === "Scissors" && computerSelection === "Paper":
+            comment.textContent = `You win this round! ${playerSelection} cut ${computerSelection}`
             roundScore = 1;
             break;
     }
@@ -49,8 +49,56 @@ function game() {
         let playerSelection = prompt("Enter your choice:");
         let computerSelection = ComputerPlay();
         let roundScore = playRound(playerSelection, computerSelection);
-        (roundScore === 1) ? player++: (roundScore == 0)? comp++: "" ;
+        (roundScore === 1) ? player++: (roundScore === 0)? comp++: "" ;
         console.log(`Score:\nPlayer: ${player} Computer: ${comp}`);
     }
     (player > comp) ? console.log("You win!") : (comp > player) ? console.log("You lose."): console.log("Tie");
 }
+
+let hscore = 0;
+let cscore = 0;
+let round = 0;
+
+document.addEventListener('DOMContentLoaded', () => {
+    const humanScore = document.querySelector('#humanscore');
+    const compScore = document.querySelector('#compscore');
+    humanScore.textContent = hscore;
+    compScore.textContent = cscore;
+    document.querySelectorAll('.btn').forEach(btn => {
+        btn.addEventListener('click',() =>  {
+            round++;
+            const playerSelection = btn.dataset["selection"];
+            const computerSelection = ComputerPlay();
+            const result = playRound(playerSelection, computerSelection);
+            if (result === 1){
+                hscore++;
+                humanScore.textContent = hscore;
+            }
+            else if (result === 0){
+                cscore++;
+                compScore.textContent = cscore;
+            };
+            if (round == 5) {
+                const result = document.querySelector(".result");
+                const resultTxt = document.querySelector(".resulttxt")
+                if (hscore > cscore){
+                    resultTxt.textContent = "Congratulations! You won!"
+                }
+                else if (cscore > hscore){
+                    resultTxt.textContent = "You lost! Try better next time!"
+                }
+                else {
+                    resultTxt.textContent = "It was a tie!"
+                }
+                document.querySelectorAll('.btn').forEach(btn => {
+                    btn.style.display = "none";
+                })
+                document.querySelector('.comment').style.display = "none";
+                const body =  document.querySelector('body');
+                body.style.justifyContent = "center";
+                body.style.gap = "20px";
+                result.style.display = "block";
+            }
+        })
+    })
+})
